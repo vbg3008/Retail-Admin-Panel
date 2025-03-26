@@ -69,7 +69,7 @@ const CreateInvoiceModal = ({ isOpen, onClose, onSubmit, clients }) => {
       console.log(submitData);
 
       const response = await fetch(
-        "http://localhost:6001/api/invoices/createInvoice",
+        "https://retail-admin-panel.onrender.com/api/invoices/createInvoice",
         {
           method: "POST",
           headers: {
@@ -97,7 +97,9 @@ const CreateInvoiceModal = ({ isOpen, onClose, onSubmit, clients }) => {
   return (
     <div className="fixed inset-0  bg-opacity-10 backdrop-blur-md  flex items-center justify-center z-50 p-4">
       <div className="bg-white border p-6 sm:p-8 rounded-lg w-full h-[98vh] max-w-md mx-auto">
-        <h2 className="text-xl sm:text-2xl font-bold mb-4 sm:mb-6 text-center">Create New Invoice</h2>
+        <h2 className="text-xl sm:text-2xl font-bold mb-4 sm:mb-6 text-center">
+          Create New Invoice
+        </h2>
         <form onSubmit={handleSubmit} className="space-y-3 sm:space-y-4">
           <select
             name="customerName"
@@ -122,7 +124,7 @@ const CreateInvoiceModal = ({ isOpen, onClose, onSubmit, clients }) => {
             required
             className="w-full p-2 border rounded text-sm sm:text-base"
           />
-          
+
           <input
             type="number"
             name="rentAmount"
@@ -236,8 +238,12 @@ const InvoicesPage = () => {
 
   useEffect(() => {
     Promise.all([
-      fetch("http://localhost:6001/api/invoices").then((res) => res.json()),
-      fetch("http://localhost:6001/api/clients").then((res) => res.json()),
+      fetch("https://retail-admin-panel.onrender.com/api/invoices").then(
+        (res) => res.json()
+      ),
+      fetch("https://retail-admin-panel.onrender.com/api/clients").then((res) =>
+        res.json()
+      ),
     ])
       .then(([invoicesData, clientsData]) => {
         setInvoices(invoicesData);
@@ -253,7 +259,9 @@ const InvoicesPage = () => {
   const fetchInvoices = async () => {
     try {
       setLoading(true);
-      const response = await fetch("http://localhost:6001/api/invoices");
+      const response = await fetch(
+        "https://retail-admin-panel.onrender.com/api/invoices"
+      );
       const data = await response.json();
       setInvoices(data);
     } catch (error) {
@@ -290,13 +298,27 @@ const InvoicesPage = () => {
           <table className="w-full min-w-[1000px]">
             <thead className="bg-gray-100">
               <tr>
-                <th className="p-3 text-left text-xs sm:text-sm font-medium text-gray-500 uppercase tracking-wider">Date</th>
-                <th className="p-3 text-left text-xs sm:text-sm font-medium text-gray-500 uppercase tracking-wider">Customer</th>
-                <th className="p-3 text-left text-xs sm:text-sm font-medium text-gray-500 uppercase tracking-wider">Current Reading</th>
-                <th className="p-3 text-left text-xs sm:text-sm font-medium text-gray-500 uppercase tracking-wider">Previous Reading</th>
-                <th className="p-3 text-left text-xs sm:text-sm font-medium text-gray-500 uppercase tracking-wider">Net Payable</th>
-                <th className="p-3 text-left text-xs sm:text-sm font-medium text-gray-500 uppercase tracking-wider">Total Before Tax</th>
-                <th className="p-3 text-left text-xs sm:text-sm font-medium text-gray-500 uppercase tracking-wider">Total After Tax</th>
+                <th className="p-3 text-left text-xs sm:text-sm font-medium text-gray-500 uppercase tracking-wider">
+                  Date
+                </th>
+                <th className="p-3 text-left text-xs sm:text-sm font-medium text-gray-500 uppercase tracking-wider">
+                  Customer
+                </th>
+                <th className="p-3 text-left text-xs sm:text-sm font-medium text-gray-500 uppercase tracking-wider">
+                  Current Reading
+                </th>
+                <th className="p-3 text-left text-xs sm:text-sm font-medium text-gray-500 uppercase tracking-wider">
+                  Previous Reading
+                </th>
+                <th className="p-3 text-left text-xs sm:text-sm font-medium text-gray-500 uppercase tracking-wider">
+                  Net Payable
+                </th>
+                <th className="p-3 text-left text-xs sm:text-sm font-medium text-gray-500 uppercase tracking-wider">
+                  Total Before Tax
+                </th>
+                <th className="p-3 text-left text-xs sm:text-sm font-medium text-gray-500 uppercase tracking-wider">
+                  Total After Tax
+                </th>
               </tr>
             </thead>
             <tbody className="bg-white divide-y divide-gray-200">
@@ -304,14 +326,31 @@ const InvoicesPage = () => {
                 .slice()
                 .reverse()
                 .map((invoice) => (
-                  <tr key={invoice._id} className="hover:bg-gray-50 transition-colors">
-                    <td className="p-3 text-sm sm:text-base">{new Date(invoice.date).toLocaleDateString()}</td>
-                    <td className="p-3 text-sm sm:text-base">{invoice.customerName}</td>
-                    <td className="p-3 text-sm sm:text-base">{invoice.currentReading}</td>
-                    <td className="p-3 text-sm sm:text-base">{invoice.previousReading}</td>
-                    <td className="p-3 text-sm sm:text-base">{invoice.netPayble}</td>
-                    <td className="p-3 text-sm sm:text-base">{invoice.totalBeforeTax}</td>
-                    <td className="p-3 text-sm sm:text-base">{invoice.totalAfterTax}</td>
+                  <tr
+                    key={invoice._id}
+                    className="hover:bg-gray-50 transition-colors"
+                  >
+                    <td className="p-3 text-sm sm:text-base">
+                      {new Date(invoice.date).toLocaleDateString()}
+                    </td>
+                    <td className="p-3 text-sm sm:text-base">
+                      {invoice.customerName}
+                    </td>
+                    <td className="p-3 text-sm sm:text-base">
+                      {invoice.currentReading}
+                    </td>
+                    <td className="p-3 text-sm sm:text-base">
+                      {invoice.previousReading}
+                    </td>
+                    <td className="p-3 text-sm sm:text-base">
+                      {invoice.netPayble}
+                    </td>
+                    <td className="p-3 text-sm sm:text-base">
+                      {invoice.totalBeforeTax}
+                    </td>
+                    <td className="p-3 text-sm sm:text-base">
+                      {invoice.totalAfterTax}
+                    </td>
                   </tr>
                 ))}
             </tbody>

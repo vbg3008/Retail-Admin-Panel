@@ -1,13 +1,67 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { Lock, Mail, LogIn, Loader2 } from 'lucide-react';
+import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { Lock, Mail, LogIn, Loader2, AlertTriangle, Server } from "lucide-react";
 
 const AuthPage = () => {
   const navigate = useNavigate();
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState('');
+  const [error, setError] = useState("");
+  const [backendStatus, setBackendStatus] = useState({
+    checking: true,
+    isReady: false,
+    message: "Checking backend status..."
+  });
+
+  // Function to check backend status
+  const checkBackendStatus = async () => {
+    try {
+      setBackendStatus(prev => ({ ...prev, checking: true }));
+      
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => {
+        controller.abort();
+      }, 1000); 
+
+      const response = await fetch(
+        "https://retail-admin-panel.onrender.com/api/clients",
+        {
+          method: "GET",
+          signal: controller.signal
+        }
+      );
+
+      clearTimeout(timeoutId);
+
+      if (response.ok) {
+        setBackendStatus({
+          checking: false,
+          isReady: true,
+          message: "Backend is ready!"
+        });
+      } else {
+        setBackendStatus({
+          checking: false,
+          isReady: false,
+          message: "Backend is not fully ready. Please wait."
+        });
+      }
+    } catch (err) {
+      setBackendStatus({
+        checking: false,
+        isReady: false,
+        message: err.name === 'AbortError' 
+          ? "Backend taking too long to respond. Please wait." 
+          : "Backend is not available. Please try again later."
+      });
+    }
+  };
+
+  // Check backend status on component mount
+  useEffect(() => {
+    checkBackendStatus();
+  }, []);
 
   const validateEmail = (email) => {
     const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -16,53 +70,61 @@ const AuthPage = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setError('');
+    setError("");
     setLoading(true);
 
     // Basic validation
     if (!validateEmail(email)) {
-      setError('Please enter a valid email address');
+      setError("Please enter a valid email address");
       setLoading(false);
       return;
     }
 
     if (password.length < 8) {
-      setError('Password must be at least 8 characters long');
+      setError("Password must be at least 8 characters long");
+      setLoading(false);
+      return;
+    }
+
+    // Check backend status before attempting login
+    if (!backendStatus.isReady) {
+      setError("Backend is not ready. Please wait.");
       setLoading(false);
       return;
     }
 
     try {
-      const response = await fetch('http://localhost:6001/api/login', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          email,
-          password
-        })
-      });
+      const response = await fetch(
+        "https://retail-admin-panel.onrender.com/api/login",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            email,
+            password,
+          }),
+        }
+      );
 
       const data = await response.json();
 
       if (response.ok) {
         // Successful login
-        localStorage.setItem('isAuthenticated', 'true');
-        navigate('/dashboard');
+        localStorage.setItem("isAuthenticated", "true");
+        navigate("/dashboard");
       } else {
         // Handle login error
-        setError(data.message || 'Login failed. Please try again.');
+        setError(data.message || "Login failed. Please try again.");
       }
     } catch (err) {
       // Network error or other issues
-      setError('An error occurred. Please try again. '+err);
+      setError("An error occurred. Please try again. " + err);
     } finally {
       setLoading(false);
     }
   };
-
-
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
@@ -71,18 +133,36 @@ const AuthPage = () => {
           <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
             Login to Admin Dashboard
           </h2>
+          
+          {/* Backend Status Alert */}
+          <div className={`mt-4 p-4 rounded-md text-center flex items-center justify-center ${
+            backendStatus.checking 
+              ? "bg-yellow-100 text-yellow-700" 
+              : backendStatus.isReady 
+                ? "bg-green-100 text-green-700" 
+                : "bg-red-100 text-red-700"
+          }`}>
+            <Server className="mr-2 h-6 w-6" />
+            <span>{backendStatus.message}</span>
+          </div>
         </div>
-        
+
         <form onSubmit={handleSubmit} className="mt-8 space-y-6">
           {error && (
-            <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
+            <div
+              className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative"
+              role="alert"
+            >
               {error}
             </div>
           )}
-          
+
           <div className="rounded-md shadow-sm -space-y-px">
+            {/* Email Input */}
             <div className="mb-4">
-              <label htmlFor="email-address" className="sr-only">Email address</label>
+              <label htmlFor="email-address" className="sr-only">
+                Email address
+              </label>
               <div className="relative">
                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                   <Mail className="h-5 w-5 text-gray-400" />
@@ -100,9 +180,12 @@ const AuthPage = () => {
                 />
               </div>
             </div>
-            
+
+            {/* Password Input */}
             <div>
-              <label htmlFor="password" className="sr-only">Password</label>
+              <label htmlFor="password" className="sr-only">
+                Password
+              </label>
               <div className="relative">
                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                   <Lock className="h-5 w-5 text-gray-400" />
@@ -125,11 +208,11 @@ const AuthPage = () => {
           <div>
             <button
               type="submit"
-              disabled={loading}
+              disabled={loading || !backendStatus.isReady}
               className={`group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white ${
-                loading 
-                  ? 'bg-gray-500 cursor-not-allowed' 
-                  : 'bg-blue-600 hover:bg-blue-700'
+                (loading || !backendStatus.isReady)
+                  ? "bg-gray-500 cursor-not-allowed"
+                  : "bg-blue-600 hover:bg-blue-700"
               } focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500`}
             >
               {loading ? (

@@ -1,44 +1,47 @@
-import React, { useState, useEffect } from 'react';
-import { Plus, Loader2 } from 'lucide-react';
+import React, { useState, useEffect } from "react";
+import { Plus, Loader2 } from "lucide-react";
 
 const CreateClientModal = ({ isOpen, onClose, onSubmit }) => {
   const [formData, setFormData] = useState({
-    customerName: '',
-    customerMobile: '',
-    customerAddress: '',
-    customerGST: '',
-    customerCurrentReading: ''
+    customerName: "",
+    customerMobile: "",
+    customerAddress: "",
+    customerGST: "",
+    customerCurrentReading: "",
   });
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData(prevState => ({
+    setFormData((prevState) => ({
       ...prevState,
-      [name]: value
+      [name]: value,
     }));
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch('http://localhost:6001/api/clients/createClient', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(formData)
-      });
+      const response = await fetch(
+        "https://retail-admin-panel.onrender.com/api/clients/createClient",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(formData),
+        }
+      );
 
       const result = await response.json();
       if (response.ok) {
         onSubmit();
         onClose();
       } else {
-        alert(result.message || 'Failed to create client');
+        alert(result.message || "Failed to create client");
       }
     } catch (error) {
-      console.error('Error:', error);
-      alert('An error occurred');
+      console.error("Error:", error);
+      alert("An error occurred");
     }
   };
 
@@ -47,7 +50,9 @@ const CreateClientModal = ({ isOpen, onClose, onSubmit }) => {
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
       <div className="bg-white p-6 sm:p-8 rounded-lg w-full max-w-md mx-auto">
-        <h2 className="text-xl sm:text-2xl font-bold mb-4 sm:mb-6 text-center">Create New Client</h2>
+        <h2 className="text-xl sm:text-2xl font-bold mb-4 sm:mb-6 text-center">
+          Create New Client
+        </h2>
         <form onSubmit={handleSubmit} className="space-y-3 sm:space-y-4">
           <input
             type="text"
@@ -94,15 +99,15 @@ const CreateClientModal = ({ isOpen, onClose, onSubmit }) => {
             className="w-full p-2 border rounded text-sm sm:text-base"
           />
           <div className="flex flex-col sm:flex-row justify-end space-y-2 sm:space-y-0 sm:space-x-4 mt-4">
-            <button 
-              type="button" 
-              onClick={onClose} 
+            <button
+              type="button"
+              onClick={onClose}
               className="bg-gray-200 text-gray-800 px-4 py-2 rounded w-full sm:w-auto"
             >
               Cancel
             </button>
-            <button 
-              type="submit" 
+            <button
+              type="submit"
               className="bg-blue-600 text-white px-4 py-2 rounded w-full sm:w-auto"
             >
               Create Client
@@ -126,11 +131,13 @@ const ClientsPage = () => {
   const fetchClients = async () => {
     try {
       setLoading(true);
-      const response = await fetch('http://localhost:6001/api/clients');
+      const response = await fetch(
+        "https://retail-admin-panel.onrender.com/api/clients"
+      );
       const data = await response.json();
       setClients(data);
     } catch (error) {
-      console.error('Error fetching clients:', error);
+      console.error("Error fetching clients:", error);
     } finally {
       setLoading(false);
     }
@@ -139,7 +146,7 @@ const ClientsPage = () => {
   return (
     <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-4">
       <div className="flex justify-end mb-4">
-        <button 
+        <button
           onClick={() => setIsModalOpen(true)}
           className="bg-blue-600 text-white px-4 py-2 rounded flex items-center"
         >
@@ -147,8 +154,8 @@ const ClientsPage = () => {
         </button>
       </div>
 
-      <CreateClientModal 
-        isOpen={isModalOpen} 
+      <CreateClientModal
+        isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
         onSubmit={fetchClients}
       />
@@ -162,21 +169,44 @@ const ClientsPage = () => {
           <table className="w-full min-w-[600px]">
             <thead className="bg-gray-100">
               <tr>
-                <th className="p-3 text-left text-xs sm:text-sm font-medium text-gray-500 uppercase tracking-wider">Name</th>
-                <th className="p-3 text-left text-xs sm:text-sm font-medium text-gray-500 uppercase tracking-wider">Mobile</th>
-                <th className="p-3 text-left text-xs sm:text-sm font-medium text-gray-500 uppercase tracking-wider">Address</th>
-                <th className="p-3 text-left text-xs sm:text-sm font-medium text-gray-500 uppercase tracking-wider">GST</th>
-                <th className="p-3 text-left text-xs sm:text-sm font-medium text-gray-500 uppercase tracking-wider">Current Reading</th>
+                <th className="p-3 text-left text-xs sm:text-sm font-medium text-gray-500 uppercase tracking-wider">
+                  Name
+                </th>
+                <th className="p-3 text-left text-xs sm:text-sm font-medium text-gray-500 uppercase tracking-wider">
+                  Mobile
+                </th>
+                <th className="p-3 text-left text-xs sm:text-sm font-medium text-gray-500 uppercase tracking-wider">
+                  Address
+                </th>
+                <th className="p-3 text-left text-xs sm:text-sm font-medium text-gray-500 uppercase tracking-wider">
+                  GST
+                </th>
+                <th className="p-3 text-left text-xs sm:text-sm font-medium text-gray-500 uppercase tracking-wider">
+                  Current Reading
+                </th>
               </tr>
             </thead>
             <tbody className="bg-white divide-y divide-gray-200">
               {clients.map((client) => (
-                <tr key={client._id} className="hover:bg-gray-50 transition-colors">
-                  <td className="p-3 text-sm sm:text-base">{client.customerName}</td>
-                  <td className="p-3 text-sm sm:text-base">{client.customerMobile}</td>
-                  <td className="p-3 text-sm sm:text-base">{client.customerAddress}</td>
-                  <td className="p-3 text-sm sm:text-base">{client.customerGST || 'N/A'}</td>
-                  <td className="p-3 text-sm sm:text-base">{client.customerCurrentReading}</td>
+                <tr
+                  key={client._id}
+                  className="hover:bg-gray-50 transition-colors"
+                >
+                  <td className="p-3 text-sm sm:text-base">
+                    {client.customerName}
+                  </td>
+                  <td className="p-3 text-sm sm:text-base">
+                    {client.customerMobile}
+                  </td>
+                  <td className="p-3 text-sm sm:text-base">
+                    {client.customerAddress}
+                  </td>
+                  <td className="p-3 text-sm sm:text-base">
+                    {client.customerGST || "N/A"}
+                  </td>
+                  <td className="p-3 text-sm sm:text-base">
+                    {client.customerCurrentReading}
+                  </td>
                 </tr>
               ))}
             </tbody>
