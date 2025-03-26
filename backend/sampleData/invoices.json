@@ -1,0 +1,60 @@
+[
+    {
+      "date": "2025-03-25T10:00:00Z",
+      "customerName": "John Doe",
+      "currentReading": 120,
+      "previousReading": 100,
+      "rentAmount": 20,
+      "freeCopiesCount": 100,
+      "ratePerReadings": 3,
+      "netPayble": 0,
+      "totalBeforeTax": 0,
+      "totalAfterTax": 0,
+      "gstType":"SGST",
+      "gstPercentage":"9"
+    },
+    {
+      "date": "2025-03-25T10:05:00Z",
+      "customerName": "Alice Johnson",
+      "currentReading": 250,
+      "previousReading": 220,
+      "rentAmount": 20,
+      "freeCopiesCount": 100,
+      "ratePerReadings": 3,
+      "netPayble": 0,
+      "totalBeforeTax": 0,
+      "totalAfterTax": 0,
+      "gstType":"SGST",
+      "gstPercentage":"9"
+    },
+    {
+      "date": "2025-03-25T10:10:00Z",
+      "customerName": "Robert Smith",
+      "currentReading": 310,
+      "previousReading": 290,
+      "rentAmount": 20,
+      "freeCopiesCount": 100,
+      "ratePerReadings": 3,
+      "netPayble": 0,
+      "totalBeforeTax": 0,
+      "totalAfterTax": 0,
+      "gstType":"SGST",
+      "gstPercentage":"9"
+    },
+    {
+      "date": "2025-03-25T10:15:00Z",
+      "customerName": "Emma Brown",
+      "currentReading": 420,
+      "previousReading": 400,
+      "rentAmount": 20,
+      "freeCopiesCount": 100,
+      "ratePerReadings": 3,
+      "netPayble": 0,
+      "totalBeforeTax": 0,
+      "totalAfterTax": 0,
+      "gstType":"SGST",
+      "gstPercentage":"9"
+    }
+
+  ]
+  

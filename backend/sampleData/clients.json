@@ -1,0 +1,108 @@
+ [
+    {
+      "customerName": "John Doe",
+      "customerMobile": 9876543210,
+      "customerAddress": "123 Main Street, New York, NY",
+      "customerGST": "22AABCU9603R1ZM",
+      "customerCurentReading": 120
+    },
+    {
+      "customerName": "Alice Johnson",
+      "customerMobile": 9876543211,
+      "customerAddress": "456 Park Avenue, Los Angeles, CA",
+      "customerGST": "33BBBCC1234D1XY",
+      "customerCurentReading": 215
+    },
+    {
+      "customerName": "Robert Smith",
+      "customerMobile": 9876543212,
+      "customerAddress": "789 Elm Street, Chicago, IL",
+      "customerGST": "44CCCDE5678G1PQ",
+      "customerCurentReading": 330
+    },
+    {
+      "customerName": "Emma Brown",
+      "customerMobile": 9876543213,
+      "customerAddress": "101 Maple Road, Houston, TX",
+      "customerGST": "55DDDFF9012H1AB",
+      "customerCurentReading": 75
+    },
+    {
+      "customerName": "Michael Wilson",
+      "customerMobile": 9876543214,
+      "customerAddress": "202 Oak Lane, Miami, FL",
+      "customerGST": "66EEEGH3456I1LM",
+      "customerCurentReading": 440
+    },
+    {
+      "customerName": "Sophia Martinez",
+      "customerMobile": 9876543215,
+      "customerAddress": "303 Pine Street, San Francisco, CA",
+      "customerGST": "77FFGGH7890J1QR",
+      "customerCurentReading": 560
+    },
+    {
+      "customerName": "Daniel Lee",
+      "customerMobile": 9876543216,
+      "customerAddress": "404 Cedar Lane, Dallas, TX",
+      "customerGST": "88GGHHI1234K1ST",
+      "customerCurentReading": 610
+    },
+    {
+      "customerName": "Olivia Clark",
+      "customerMobile": 9876543217,
+      "customerAddress": "505 Birch Road, Seattle, WA",
+      "customerGST": "99HHIIJ5678L1UV",
+      "customerCurentReading": 275
+    },
+    {
+      "customerName": "Ethan White",
+      "customerMobile": 9876543218,
+      "customerAddress": "606 Walnut Avenue, Boston, MA",
+      "customerGST": "10IIJJK9012M1WX",
+      "customerCurentReading": 145
+    },
+    {
+      "customerName": "Ava Harris",
+      "customerMobile": 9876543219,
+      "customerAddress": "707 Chestnut Blvd, Denver, CO",
+      "customerGST": "11JJKKL3456N1YZ",
+      "customerCurentReading": 325
+    },
+    {
+      "customerName": "Liam Thomas",
+      "customerMobile": 9876543220,
+      "customerAddress": "808 Redwood Street, Austin, TX",
+      "customerGST": "12KKLLM7890O1AB",
+      "customerCurentReading": 480
+    },
+    {
+      "customerName": "Mia Anderson",
+      "customerMobile": 9876543221,
+      "customerAddress": "909 Magnolia Lane, Orlando, FL",
+      "customerGST": "13LLMMN1234P1CD",
+      "customerCurentReading": 530
+    },
+    {
+      "customerName": "Noah Walker",
+      "customerMobile": 9876543222,
+      "customerAddress": "1010 Willow Drive, Las Vegas, NV",
+      "customerGST": "14MMNNO5678Q1EF",
+      "customerCurentReading": 600
+    },
+    {
+      "customerName": "Charlotte King",
+      "customerMobile": 9876543223,
+      "customerAddress": "1111 Aspen Way, San Diego, CA",
+      "customerGST": "15NNOOP9012R1GH",
+      "customerCurentReading": 225
+    },
+    {
+      "customerName": "James Scott",
+      "customerMobile": 9876543224,
+      "customerAddress": "1212 Cypress Avenue, Phoenix, AZ",
+      "customerGST": "16OOPPQR3456S1IJ",
+      "customerCurentReading": 410
+    }
+  ]
+  
